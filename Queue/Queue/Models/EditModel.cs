@@ -10,4 +10,8 @@ namespace Queue.Models
         public string Email { get; set; }
         public string UserName { get; set; }
     }
+    public class IndexViewModel
+    {
+        public string UserName { get; set; }
+    }
 }

@@ -1,0 +1,16 @@
+﻿@model Queue.Models.IndexViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<h1>@Html.Name(User.Identity.Name)</h1>
+<div class="form-group">
+    <div class="col-md-2 control-label">
+        @Html.ActionLink("Edit", "Edit", "Account")
+    </div>
+    <div class="col-md-2 control-label">
+        @Html.ActionLink("Delete", "Delete", "Account")
+    </div>
+</div>
+<p class="text-success">@ViewBag.StatusMessage</p>
+

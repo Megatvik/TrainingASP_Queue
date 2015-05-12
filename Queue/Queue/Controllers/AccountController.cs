@@ -29,6 +29,7 @@ namespace Queue.Controllers
                 return HttpContext.GetOwinContext().Authentication;
             }
         }
+
         #region Register
         public ActionResult Register()
         {
@@ -44,7 +45,14 @@ namespace Queue.Controllers
                 IdentityResult result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index");
+                    ClaimsIdentity claim = await UserManager.CreateIdentityAsync(user,
+                        DefaultAuthenticationTypes.ApplicationCookie);
+                    AuthenticationManager.SignIn(new AuthenticationProperties
+                    {
+                        IsPersistent = true
+                    }, claim);
+
+                    return RedirectToAction("Index","Home");
                 }
                 else
                 {
@@ -95,6 +103,14 @@ namespace Queue.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult LogOff()
+        {
+            AuthenticationManager.SignOut();
+            return RedirectToAction("Index", "Home");
+        }
+
         #endregion
 
         #region Edit
@@ -112,6 +128,7 @@ namespace Queue.Controllers
             ApplicationUser user = await UserManager.FindByEmailAsync(User.Identity.Name);
             if (user != null)
             {
+                AuthenticationManager.SignOut();
                 IdentityResult result = await UserManager.DeleteAsync(user);
                 if (result.Succeeded)
                 {
