@@ -18,7 +18,18 @@
         <div>
             <p>Ник: @Html.EditorFor(model => model.UserName)</p>
         </div>
-
+        <div>
+            <p>Имя: @Html.EditorFor(model => model.Name)</p>
+        </div>
+        <div>
+            <p>Фамилия: @Html.EditorFor(model => model.LastName)</p>
+        </div>
+        <div>
+            <p>Бан: @Html.EditorFor(model => model.isBaned)</p>
+        </div>
+        <div>
+            <p>Роль: @Html.EditorFor(model => model.Role)</p>
+        </div>
         <div>
             <div>
                 <input type="submit" value="Сохранить" />

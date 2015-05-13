@@ -41,7 +41,7 @@ namespace Queue.Controllers
         {
             if (ModelState.IsValid)
             {
-                ApplicationUser user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                ApplicationUser user = new ApplicationUser { UserName = model.Email, Email = model.Email,Role="Client" };
                 IdentityResult result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -143,7 +143,16 @@ namespace Queue.Controllers
             ApplicationUser user = await UserManager.FindByEmailAsync(User.Identity.Name);
             if (user != null)
             {
-                EditModel model = new EditModel { UserName = user.UserName, Email = user.Email };
+                EditModel model = new EditModel
+                {
+                    UserName = user.UserName,
+                    Email = user.Email,
+                    Name = user.Name,
+                    LastName = user.LastName,
+                    isBaned = user.isBaned,
+                    Role = user.Role
+                };
+
                 return View(model);
             }
             return RedirectToAction("Login", "Account");
@@ -157,6 +166,11 @@ namespace Queue.Controllers
             {
                 user.Email = model.Email;
                 user.UserName = model.UserName;
+                user.Name = model.Name;
+                user.LastName = model.LastName;
+                user.isBaned = model.isBaned;
+                user.Role = model.Role;
+
                 IdentityResult result = await UserManager.UpdateAsync(user);
                 if (result.Succeeded)
                 {

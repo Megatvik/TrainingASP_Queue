@@ -1,9 +1,20 @@
-﻿@model Queue.Models.IndexViewModel
+﻿@model Queue.Models.EditModel
 @{
     ViewBag.Title = "Index";
 }
 
-<h1>@Html.Name(User.Identity.Name)</h1>
+<h1>E-mail : @Html.Name(Model.Email)</h1>
+
+<h1>User-name : @Html.Name(Model.UserName)</h1>
+
+<h2>Ваша роль : @Html.Name(Model.Role)</h2>
+
+<h2>Ваше имя : @Html.Name(Model.Name)</h2>
+
+<h2>Ваша фамилия : @Html.Name(Model.LastName)</h2>
+
+<h2>Забанены? : @Html.Name(Model.isBaned.ToString())</h2>
+
 <div class="form-group">
     <div class="col-md-2 control-label">
         @Html.ActionLink("Edit", "Edit", "Account")
