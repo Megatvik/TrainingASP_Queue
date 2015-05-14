@@ -21,7 +21,7 @@ namespace Queue.Controllers
                 return HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
             }
         }
-
+        
         private IAuthenticationManager AuthenticationManager
         {
             get
@@ -39,7 +39,7 @@ namespace Queue.Controllers
             {
                 EditModel model = new EditModel { Email = user.Email,
                                                             Name = user.Name, LastName = user.LastName,
-                                                            isBaned = user.isBaned, Role = user.Role};
+                                                            isBaned = user.isBaned};
                 return View(model);
             }
             return RedirectToAction("Login", "Account");
@@ -82,7 +82,6 @@ namespace Queue.Controllers
                     Name = user.Name,
                     LastName = user.LastName,
                     isBaned = user.isBaned,
-                    Role = user.Role
                 };
 
                 return View(model);
@@ -100,7 +99,6 @@ namespace Queue.Controllers
                 user.Name = model.Name;
                 user.LastName = model.LastName;
                 user.isBaned = model.isBaned;
-                user.Role = model.Role;
 
                 IdentityResult result = await UserManager.UpdateAsync(user);
                 if (result.Succeeded)

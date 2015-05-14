@@ -6,10 +6,11 @@ using System.Web.Mvc;
 
 namespace Queue.Controllers
 {
+    [Authorize(Roles = "Expert")]
     public class ExpertController : Controller
     {
         //
-        // GET: /Expert/
+        // GET: /Expert/        
         public ActionResult Index()
         {
             return View();

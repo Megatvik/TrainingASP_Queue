@@ -16,5 +16,8 @@ namespace Queue.Models
         [Compare("Password", ErrorMessage = "Пароли не совпадают")]
         [DataType(DataType.Password)]
         public string PasswordConfirm { get; set; }
+
+        [Required]
+        public string Role { get; set; }
     }
 }

@@ -9,6 +9,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using System.Security.Claims;
+using Queue.Models.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Queue.Controllers
 {
@@ -21,7 +23,6 @@ namespace Queue.Controllers
                 return HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
             }
         }
-
         private IAuthenticationManager AuthenticationManager
         {
             get
@@ -41,17 +42,18 @@ namespace Queue.Controllers
         {
             if (ModelState.IsValid)
             {
-                ApplicationUser user = new ApplicationUser { UserName = model.Email, Email = model.Email,Role="Client" };
+                ApplicationUser user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 IdentityResult result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    await UserManager.AddToRoleAsync(user.Id, model.Role);
                     ClaimsIdentity claim = await UserManager.CreateIdentityAsync(user,
                         DefaultAuthenticationTypes.ApplicationCookie);
                     AuthenticationManager.SignIn(new AuthenticationProperties
                     {
                         IsPersistent = true
                     }, claim);
-
+                    
                     return RedirectToAction("Index","Home");
                 }
                 else
@@ -70,6 +72,8 @@ namespace Queue.Controllers
 
         public ActionResult Login(string returnUrl)
         {
+            if (User.Identity != null && User.Identity.IsAuthenticated)
+                return RedirectToAction("Index","Home");
             ViewBag.returnUrl = returnUrl;
             return View();
         }
@@ -95,12 +99,7 @@ namespace Queue.Controllers
                         IsPersistent = true
                     }, claim);
                     if (String.IsNullOrEmpty(returnUrl))
-                        if(user.Role == "Client")
                             return RedirectToAction("Index", "Home");
-                        else if (user.Role == "Expert")
-                            return RedirectToAction("Index", "Expert");
-                        else if (user.Role == "Admin")
-                            return RedirectToAction("Index", "Admin");
                     return Redirect(returnUrl);
                 }
             }
@@ -115,8 +114,6 @@ namespace Queue.Controllers
             AuthenticationManager.SignOut();
             return RedirectToAction("Index", "Home");
         }
-
         #endregion
-        
     }
 }
