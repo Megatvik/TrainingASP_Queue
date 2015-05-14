@@ -21,6 +21,15 @@ namespace Queue.Controllers
                 return HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
             }
         }
+
+        private IAuthenticationManager AuthenticationManager
+        {
+            get
+            {
+                return HttpContext.GetOwinContext().Authentication;
+            }
+        }
+
         // GET: Manage
         public async Task<ActionResult> Index()
         {
@@ -28,12 +37,89 @@ namespace Queue.Controllers
             ApplicationUser user = await UserManager.FindByEmailAsync(User.Identity.Name); // Глюк! ищет по имени а думает что по почте.
             if (user != null)
             {
-                EditModel model = new EditModel { UserName = user.UserName, Email = user.Email,
+                EditModel model = new EditModel { Email = user.Email,
                                                             Name = user.Name, LastName = user.LastName,
                                                             isBaned = user.isBaned, Role = user.Role};
                 return View(model);
             }
             return RedirectToAction("Login", "Account");
         }
+
+        #region Edit
+
+        [HttpGet]
+        public ActionResult Delete()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ActionName("Delete")]
+    
+        public async Task<ActionResult> DeleteConfirmed()
+        {
+            ApplicationUser user = await UserManager.FindByEmailAsync(User.Identity.Name);
+            if (user != null)
+            {
+                AuthenticationManager.SignOut();
+                IdentityResult result = await UserManager.DeleteAsync(user);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
+        public async Task<ActionResult> Edit()
+        {
+            ApplicationUser user = await UserManager.FindByEmailAsync(User.Identity.Name);
+            if (user != null)
+            {
+                EditModel model = new EditModel
+                {
+                    Email = user.Email,
+                    Name = user.Name,
+                    LastName = user.LastName,
+                    isBaned = user.isBaned,
+                    Role = user.Role
+                };
+
+                return View(model);
+            }
+            return RedirectToAction("Login", "Account");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Edit(EditModel model)
+        {
+            ApplicationUser user = await UserManager.FindByEmailAsync(User.Identity.Name);
+            if (user != null)
+            {
+                user.Email = model.Email;
+                user.Name = model.Name;
+                user.LastName = model.LastName;
+                user.isBaned = model.isBaned;
+                user.Role = model.Role;
+
+                IdentityResult result = await UserManager.UpdateAsync(user);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index", "Manage");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Что-то пошло не так");
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("", "Пользователь не найден");
+            }
+
+            return View(model);
+        }
+
+        #endregion
     }
 }

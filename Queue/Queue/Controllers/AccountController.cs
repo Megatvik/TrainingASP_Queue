@@ -95,7 +95,12 @@ namespace Queue.Controllers
                         IsPersistent = true
                     }, claim);
                     if (String.IsNullOrEmpty(returnUrl))
-                        return RedirectToAction("Index", "Home");
+                        if(user.Role == "Client")
+                            return RedirectToAction("Index", "Home");
+                        else if (user.Role == "Expert")
+                            return RedirectToAction("Index", "Expert");
+                        else if (user.Role == "Admin")
+                            return RedirectToAction("Index", "Admin");
                     return Redirect(returnUrl);
                 }
             }
@@ -112,83 +117,6 @@ namespace Queue.Controllers
         }
 
         #endregion
-
-        #region Edit
-
-        [HttpGet]
-        public ActionResult Delete()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        [ActionName("Delete")]
-        public async Task<ActionResult> DeleteConfirmed()
-        {
-            ApplicationUser user = await UserManager.FindByEmailAsync(User.Identity.Name);
-            if (user != null)
-            {
-                AuthenticationManager.SignOut();
-                IdentityResult result = await UserManager.DeleteAsync(user);
-                if (result.Succeeded)
-                {
-                    return RedirectToAction("Login", "Account");
-                }
-            }
-            return RedirectToAction("Index", "Home");
-        }
-
-        public async Task<ActionResult> Edit()
-        {
-            ApplicationUser user = await UserManager.FindByEmailAsync(User.Identity.Name);
-            if (user != null)
-            {
-                EditModel model = new EditModel
-                {
-                    UserName = user.UserName,
-                    Email = user.Email,
-                    Name = user.Name,
-                    LastName = user.LastName,
-                    isBaned = user.isBaned,
-                    Role = user.Role
-                };
-
-                return View(model);
-            }
-            return RedirectToAction("Login", "Account");
-        }
-
-        [HttpPost]
-        public async Task<ActionResult> Edit(EditModel model)
-        {
-            ApplicationUser user = await UserManager.FindByEmailAsync(User.Identity.Name);
-            if (user != null)
-            {
-                user.Email = model.Email;
-                user.UserName = model.UserName;
-                user.Name = model.Name;
-                user.LastName = model.LastName;
-                user.isBaned = model.isBaned;
-                user.Role = model.Role;
-
-                IdentityResult result = await UserManager.UpdateAsync(user);
-                if (result.Succeeded)
-                {
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    ModelState.AddModelError("", "Что-то пошло не так");
-                }
-            }
-            else
-            {
-                ModelState.AddModelError("", "Пользователь не найден");
-            }
-
-            return View(model);
-        }
-
-        #endregion
+        
     }
 }
