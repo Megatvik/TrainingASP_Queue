@@ -166,9 +166,13 @@
     <Compile Include="Models\Identity\IdentityViewModel\LoginModel.cs" />
     <Compile Include="Models\Identity\IdentityViewModel\RegisterModel.cs" />
     <Compile Include="Models\Identity\IdentityViewModel\RoleModel.cs" />
+    <Compile Include="Models\Interface\IExpertRepository.cs" />
     <Compile Include="Models\Interface\IRepository.cs" />
+    <Compile Include="Models\Interface\IViewRepo.cs" />
     <Compile Include="Models\ProcessingView.cs" />
     <Compile Include="Models\QueryView.cs" />
+    <Compile Include="Models\Repository\ExpertRepoTest.cs" />
+    <Compile Include="Models\Repository\ViewListRepoTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -213,6 +217,8 @@
     <Content Include="Views\Roles\Index.cshtml" />
     <Content Include="Views\Roles\Create.cshtml" />
     <Content Include="Views\Roles\Edit.cshtml" />
+    <Content Include="Views\Expert\QueryPartial.cshtml" />
+    <Content Include="Views\Expert\HandlePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

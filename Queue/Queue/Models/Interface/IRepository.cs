@@ -7,11 +7,8 @@ using System.Data.SqlClient;
 
 namespace Queue.Models.Interface
 {
-    public interface IRepository
+    public interface IViewRepository
     {
-        private SqlConnection _connect;
-        private SqlCommand _command;
-        private SqlDataReader _reader;
 
         #region Client Methods
 
