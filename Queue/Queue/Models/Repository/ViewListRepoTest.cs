@@ -39,5 +39,13 @@ namespace Queue.Models.Repository
         {
             throw new NotImplementedException();
         }
+        public QueueView SelectQueueInfo(int UID)
+        {
+            QueueView view = new QueueView();
+            view.Name = "TestQuery";
+            view.Position = 2;
+            view.WaitingTime = 15;
+            return view;
+        }
     }
 }

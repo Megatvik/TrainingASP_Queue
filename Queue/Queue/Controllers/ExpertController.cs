@@ -44,7 +44,7 @@ namespace Queue.Controllers
         }
         public ActionResult AdoptClient(int QID) //Принять клиента
         {
-            if (repoExpert.AdoptClient(EID,QID) != null)
+            if (repoExpert.AdoptClient(EID,QID) != 0)
             {
                 return RedirectToAction("Index"); // Сдесь должна быть чат-комната
             }

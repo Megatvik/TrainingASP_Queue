@@ -13,5 +13,6 @@ namespace Queue.Models.Interface
         List<ExpertView> SelectAllExperts(); //Возвращает список всех экспертов
         List<QueryView> SelectProcessingByExpert(int EID); //Возвращает список запросов, обрабатываемых одним экспертом
         List<ProcessingView> SelectAllProcessingList(); //Возвращает таблицу Processing
+        QueueView SelectQueueInfo(int UID); //Возвращает информацию о позиции в очереди
     }
 }

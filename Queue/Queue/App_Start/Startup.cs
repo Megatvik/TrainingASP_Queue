@@ -21,6 +21,7 @@ namespace Queue
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
                 LoginPath = new PathString("/Account/Login"),
             });
+            app.MapSignalR();
         }
     }
 }
