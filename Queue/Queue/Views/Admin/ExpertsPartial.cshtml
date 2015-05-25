@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Queue.Models.ExpertView>
+<table class="table" style="">
+    
+    <tr>
+        <th colspan="4">Эксперты:</th>
+    </tr>
+    <tr>
+        <th>Имя</th>
+        <th>В сети</th>
+        <th>Статус</th>        
+        <th>Запросы</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Name</td>
+                @if (@item.IsAuthorize)
+                {
+                  <td>В сети</td>
+                }
+                else
+                {
+                    <td>Не в сети</td>
+                }
+            @if (@item.IsWorking)
+            {
+                <td>Работает</td>
+            }
+            else
+            {
+                <td>Не работает</td>
+            }
+            <td>
+                @for (int i = 0; i < @item.ProcessingQuery.Count; i++ )
+                {
+                    <p>@item.ProcessingQuery[i].NameQuery</p>
+                }
+            </td>
+        </tr>
+    }
+</table>

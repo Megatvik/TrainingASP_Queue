@@ -20,7 +20,32 @@ namespace Queue.Models.Repository
 
         public List<ExpertView> SelectAllExperts()
         {
-            throw new NotImplementedException();
+            List<ExpertView> list = new List<ExpertView>() 
+            {
+                new ExpertView() 
+                {
+                    Name="qwe",
+                     IsAuthorize=true,
+                      IsWorking=true,
+                    ProcessingQuery = new List<QueryView>()
+                    {
+                        new QueryView() {NameQuery="123123"},
+                        new QueryView() {NameQuery="qweqwewqe"},
+                        new QueryView() {NameQuery="QueryQuery"}
+                    }
+                },
+                new ExpertView() 
+                {
+                    Name="asd",
+                    ProcessingQuery = new List<QueryView>()
+                    {
+                        new QueryView() {NameQuery="123123"},
+                        new QueryView() {NameQuery="qweqwewqe"},
+                        new QueryView() {NameQuery="QueryQuery"}
+                    }
+                }
+            };
+            return list;
         }
 
         public List<QueryView> SelectProcessingByExpert(int EID)

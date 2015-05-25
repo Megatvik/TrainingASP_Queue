@@ -1,4 +1,6 @@
 ﻿using Queue.Models;
+using Queue.Models.Interface;
+using Queue.Models.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,17 +12,83 @@ namespace Queue.Controllers
     [Authorize (Roles="Admin")]
     public class AdminController : Controller
     {
+        IAdminRepository repoAdmin;
+        IViewRepo repoView;
+        public AdminController()
+        {
+            repoAdmin = new AdminRepoTest();
+            repoView = new ViewListRepoTest();
+        }
         //
         // GET: /Admin/
         public ActionResult Index()
         {
-            List<QueryView> list = new List<QueryView>() 
+            return View();
+        }
+
+        public ActionResult Delete(int QID)
+        {
+            if(repoAdmin.DeleteQuery(QID))
+                return RedirectToAction("Index");
+            else { return View("Error"); }
+        }
+
+        #region Edit Query
+        [HttpGet]
+        public ActionResult Edit()
+        {
+            return View("EditQuery");
+        }
+        [HttpPost]
+        public ActionResult Edit(QueryView query)
+        {
+            if(repoAdmin.EditQuery(query))
             {
-                new QueryView(){NameQuery="123", ExpertsCount=1, QueueCount=0, SubQueueCount=0},
-                new QueryView(){NameQuery="qwe", ExpertsCount=1, QueueCount=0, SubQueueCount=0},
-                new QueryView(){NameQuery="asd", ExpertsCount=1, QueueCount=0, SubQueueCount=0}
-            };
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View("Error");
+            }
+        }
+        #endregion
+
+        #region Create Query
+        [HttpGet]
+        public ActionResult Create()
+        {
+            return View("EditQuery");
+        }
+        [HttpPost]
+        public ActionResult Create(QueryView query)
+        {
+            if(repoAdmin.AddQuery(query))
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View("Error");
+            }
+        }
+
+
+        #endregion
+
+        #region ChildActionOnly
+
+        [ChildActionOnly]
+        public ActionResult QueryPartial()
+        {
+            List<QueryView> list = repoView.SelectAllQuery();
             return View(list);
         }
-	}
+        [ChildActionOnly]
+        public ActionResult ExpertsPartial()
+        {
+            List<ExpertView> list = repoView.SelectAllExperts();
+            return View(list);
+        }
+        #endregion
+    }
 }
