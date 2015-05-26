@@ -242,6 +242,7 @@
     <Content Include="Views\Admin\QueryPartial.cshtml" />
     <Content Include="Views\Admin\ExpertsPartial.cshtml" />
     <Content Include="Views\Admin\EditQuery.cshtml" />
+    <Content Include="Views\Manage\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

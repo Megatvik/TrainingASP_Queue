@@ -6,20 +6,17 @@
 <h2>Client</h2>
 
 <div class="row">
-    @if (ViewBag.IsInQueue)
+    @if (!ViewBag.IsInQueue)
     {
     <div class="col-md-12" style="background-color:lightblue;">
-        @*@{
-        Html.RenderAction("QueueInfo", "Client");
-        }*@
         @{
-            Html.RenderPartial("ChatRoom");
-            }
+        Html.RenderAction("QueueInfo", "Client");
+        }
     </div>
     }
     else
     {
-        <div class="col-md-12" style="background-color:lightblue;">
+        <div class="col-md-12 text-center" style="background-color:lightblue;">
             @{
         Html.RenderAction("QueryPartial", "Client");
             }

@@ -99,7 +99,10 @@ namespace Queue.Controllers
                         IsPersistent = true
                     }, claim);
                     if (String.IsNullOrEmpty(returnUrl))
-                            return RedirectToAction("Index", "Home");
+                    {
+                        string role = UserManager.GetRoles(user.Id)[0].ToString();
+                        return RedirectToAction("Index", role);
+                    }
                     return Redirect(returnUrl);
                 }
             }

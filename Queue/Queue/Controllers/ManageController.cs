@@ -37,10 +37,8 @@ namespace Queue.Controllers
             ApplicationUser user = await UserManager.FindByEmailAsync(User.Identity.Name); // Глюк! ищет по имени а думает что по почте.
             if (user != null)
             {
-                EditModel model = new EditModel { Email = user.Email,
-                                                            Name = user.Name, LastName = user.LastName,
-                                                            isBaned = user.isBaned};
-                return View(model);
+                string role = UserManager.GetRoles(user.Id)[0].ToString();
+                return RedirectToAction("Index", role);
             }
             return RedirectToAction("Login", "Account");
         }
