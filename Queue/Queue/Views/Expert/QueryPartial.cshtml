@@ -15,8 +15,8 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>@item.NameQuery</td>
-                <td>@item.ExpertsCount</td>
+                <td>@item.Name</td>
+                <td>@item.Experts</td>
                 <td>@item.QueueCount</td>
                 <td>@item.SubQueueCount</td>
                 <td>@Html.ActionLink("Подписаться", "Handle", "Expert", new { QID = item.ID },null)</td>

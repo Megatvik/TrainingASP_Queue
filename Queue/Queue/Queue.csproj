@@ -182,10 +182,10 @@
     <Compile Include="Models\ProcessingView.cs" />
     <Compile Include="Models\QueryView.cs" />
     <Compile Include="Models\QueueView.cs" />
-    <Compile Include="Models\Repository\AdminRepoTest.cs" />
-    <Compile Include="Models\Repository\ClientRepoTest.cs" />
-    <Compile Include="Models\Repository\ExpertRepoTest.cs" />
-    <Compile Include="Models\Repository\ViewListRepoTest.cs" />
+    <Compile Include="Models\Repository\AdminRepo.cs" />
+    <Compile Include="Models\Repository\ClientRepo.cs" />
+    <Compile Include="Models\Repository\ExpertRepo.cs" />
+    <Compile Include="Models\Repository\ViewListRepo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -10,5 +10,6 @@ namespace Queue.Models
         public string Name { get; set; }
         public int Position { get; set; }
         public int WaitingTime { get; set; }
+        public bool IsSubQueue { get; set; }
     }
 }

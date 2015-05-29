@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace Queue.Models.Interface
 {
-    interface IViewRepo
+    interface IViewRepository
     {
         List<QueryView> SelectAllQuery(); // Возвращает список всех запросов 
         List<ExpertView> SelectAllExperts(); //Возвращает список всех экспертов
-        List<QueryView> SelectProcessingByExpert(string EID); //Возвращает список запросов, обрабатываемых одним экспертом
+        List<QueryView> SelectProcessingByExpert(int EID); //Возвращает список запросов, обрабатываемых одним экспертом
         List<ProcessingView> SelectAllProcessingList(); //Возвращает таблицу Processing
-        QueueView SelectQueueInfo(string UID); //Возвращает информацию о позиции в очереди
+        QueueView SelectQueueInfo(int UID); //Возвращает информацию о позиции в очереди
     }
 }

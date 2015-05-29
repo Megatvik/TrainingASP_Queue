@@ -16,7 +16,7 @@
     {
         <tr>
             <td>@Html.ActionLink("Отписаться", "CancelHandle", "Expert", new  {QID = item.ID },null)</td>
-            <td>@item.NameQuery</td>
+            <td>@item.Name</td>
             <td>@item.QueueCount</td>
             <td>@item.SubQueueCount</td>
             <td>@Html.ActionLink("Принять клиента", "AdoptClient", "Expert", new  {QID = item.ID },null)</td>            

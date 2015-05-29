@@ -16,8 +16,8 @@ namespace Queue.Controllers
         IViewRepo repoView;
         public AdminController()
         {
-            repoAdmin = new AdminRepoTest();
-            repoView = new ViewListRepoTest();
+            repoAdmin = new AdminRepo();
+            repoView = new ViewListRepo();
         }
         //
         // GET: /Admin/
