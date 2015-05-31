@@ -61,9 +61,32 @@ namespace Queue.Controllers
         }
         public ActionResult AdoptClient(string QID) //Принять клиента
         {
-            if (repoExpert.AdoptClient(EID,QID) != 0)
+            EID = UserManager.FindByName(User.Identity.Name).Id;
+            string UID;
+            UID = repoExpert.AdoptClient(EID, QID);
+            if (!UID.Equals("0"))
             {
-                return RedirectToAction("Index"); // Сдесь должна быть чат-комната
+                ClientView tmp = new ClientView();
+                tmp.ID_client = UID;
+                tmp.ID_expert = EID;
+                return View("Service",tmp);
+            }
+            return View("Error");
+        }
+        public ActionResult EndDialog(string EID, string UID)
+        {            
+            if(repoExpert.EndDialog(EID, UID))
+            {
+                return RedirectToAction("Index");
+            }
+            return View("Error");
+        }
+        public ActionResult SubQueue(string SubQID)
+        {
+            EID = UserManager.FindByName(User.Identity.Name).Id;
+            if (repoExpert.SendToSubQueue(EID, SubQID))
+            {
+                return RedirectToAction("Index");
             }
             return View("Error");
         }
@@ -86,6 +109,12 @@ namespace Queue.Controllers
         {
             EID = UserManager.FindByName(User.Identity.Name).Id;
             List<QueryView> list = repoView.SelectProcessingByExpert(EID);
+            return PartialView(list);
+        }
+        [ChildActionOnly]
+        public ActionResult SubQueryPartial()
+        {
+            List<QueryView> list = repoView.SelectAllQuery();
             return PartialView(list);
         }
 	}

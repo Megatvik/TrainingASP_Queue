@@ -1,0 +1,13 @@
+﻿@model Queue.Models.ClientView
+
+<div>@Model.ID_client</div>
+<div>@Model.ID_expert</div>
+
+@if(User.IsInRole("Expert"))
+{
+    Html.RenderAction("SubQueryPartial", "Expert");        
+    
+    <div class="col-md-2">
+        @Html.ActionLink("Закончить разговор", "EndDialog", "Expert", new { EID = Model.ID_expert, UID = Model.ID_client }, null)
+    </div>
+}

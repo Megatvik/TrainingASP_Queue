@@ -165,6 +165,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Hubs\ChatHub.cs" />
+    <Compile Include="Models\ClientView.cs" />
     <Compile Include="Models\ExpertView.cs" />
     <Compile Include="Models\Identity\ApplicationUser.cs" />
     <Compile Include="Models\Identity\ApplicationUserManager.cs" />
@@ -238,11 +239,12 @@
     <Content Include="Views\Client\Index.cshtml" />
     <Content Include="Views\Client\QueryPartial.cshtml" />
     <Content Include="Views\Client\QueueInfo.cshtml" />
-    <Content Include="Views\Shared\ChatRoom.cshtml" />
     <Content Include="Views\Admin\QueryPartial.cshtml" />
     <Content Include="Views\Admin\ExpertsPartial.cshtml" />
     <Content Include="Views\Admin\EditQuery.cshtml" />
     <Content Include="Views\Manage\Details.cshtml" />
+    <Content Include="Views\Shared\Service.cshtml" />
+    <Content Include="Views\Expert\SubQueryPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

@@ -26,21 +26,35 @@ namespace Queue.Models.Repository
             return ExecuteCommand();
         }
 
-        public int AdoptClient(string EID, string QID)
+        public string AdoptClient(string EID, string QID)
         {
-            int CID=1;
+            string cmd = "EXECUTE AdoptClient @eid, @qid";
+            command = new SqlCommand(cmd,connect);
+            command.Parameters.AddWithValue("@eid", EID);
+            command.Parameters.AddWithValue("@qid", QID);
+            connect.Open();
+            string CID = (string)command.ExecuteScalar();
+            connect.Close();
             //Логика для поиска первого клиента из очереди и возврата его ID
             return CID;
         }
 
-        public bool SendToSubQueue(string UID, string SubQID)
+        public bool SendToSubQueue(string EID, string SubQID)
         {
-            throw new NotImplementedException();
+            string cmd = "EXECUTE SendToSubQueue @eid, @qid";
+            command = new SqlCommand(cmd,connect);
+            command.Parameters.AddWithValue("@eid", EID);
+            command.Parameters.AddWithValue("@qid", SubQID);
+            return ExecuteCommand();
         }
 
         public bool EndDialog(string EID, string UID)
         {
-            throw new NotImplementedException();
+            string cmd = "EXECUTE EndDialog @eid, @uid";
+            command = new SqlCommand(cmd,connect);
+            command.Parameters.AddWithValue("@eid", EID);
+            command.Parameters.AddWithValue("@uid", UID);
+            return ExecuteCommand();
         }
         public bool CancelHandleQuery(string EID, string QID)
         {

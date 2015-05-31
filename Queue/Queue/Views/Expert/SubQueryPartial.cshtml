@@ -1,0 +1,26 @@
+﻿@model IEnumerable<Queue.Models.QueryView>
+
+<table class="table">
+    <tr>
+        <th colspan="4">Доступные запросы:</th>
+    </tr>
+    <tr>
+        <th>Название</th>
+        <th>Подписано экспертов</th>
+        <th>Размер очереди</th>
+        <th>Вне очереди</th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Name</td>
+            <td>@item.Experts</td>
+            <td>@item.QueueCount</td>
+            <td>@item.SubQueueCount</td>
+            <td>@Html.ActionLink("Отправить", "SubQueue", "Expert", new { SubQID = item.ID }, null)</td>
+        </tr>
+    }
+</table>
+
