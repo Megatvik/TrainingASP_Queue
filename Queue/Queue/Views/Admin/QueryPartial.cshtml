@@ -1,11 +1,22 @@
 ﻿@model IEnumerable<Queue.Models.QueryView>
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+
+<div class="row text-center">
+    @using (Html.BeginForm("Create", "Admin"))
+    {
+        <div class="row text-center h3">Новый запрос</div>
+        <div style="height:10px"></div>
+        <div>
+            @Html.TextBox("name")
+            &nbsp;&nbsp;
+           <input class="btn" type="submit" value="Создать" />
+        </div>
+        <div style="height:10px"></div>
+    }
+</div>
 <table class="table" style="">
     
     <tr>
-        <th colspan="4">Доступные запросы:</th>
+        <th colspan="4"><h4 class="text-left">Доступные запросы</h4></th>
     </tr>
     <tr>
         <th>Название</th>
@@ -23,7 +34,6 @@
             <td>@item.QueueCount</td>
             <td>@item.SubQueueCount</td>
             <td>
-                @Html.ActionLink("Изменить", "Edit", "Admin", new { QID = item.ID }, null)
                 @Html.ActionLink("Удалить", "Delete", "Admin", new { QID = item.ID }, null)
             </td>
         </tr>

@@ -46,31 +46,36 @@ namespace Queue.Models.Repository
 
         public List<ExpertView> SelectAllExperts()
         {
-            List<ExpertView> list = new List<ExpertView>() 
+            List<ExpertView> list = new List<ExpertView>();
+            ExpertView expert = new ExpertView();
+            expert.ProcessingQuery = new List<QueryView>();
+            string cmd = @"Select * from ExpertsView";
+            command = new SqlCommand(cmd, connect);
+            connect.Open();
+            reader = command.ExecuteReader();
+            while (reader.Read())
             {
-                new ExpertView() 
+                string id = (string)reader["ID"];
+                if(expert.ID == id)
                 {
-                    Name="qwe",
-                     IsAuthorize=true,
-                      IsWorking=true,
-                    ProcessingQuery = new List<QueryView>()
-                    {
-                        new QueryView() {Name="123123"},
-                        new QueryView() {Name="qweqwewqe"},
-                        new QueryView() {Name="QueryQuery"}
-                    }
-                },
-                new ExpertView() 
-                {
-                    Name="asd",
-                    ProcessingQuery = new List<QueryView>()
-                    {
-                        new QueryView() {Name="123123"},
-                        new QueryView() {Name="qweqwewqe"},
-                        new QueryView() {Name="QueryQuery"}
-                    }
+                    expert.ProcessingQuery.Add(new QueryView() { Name = (string)reader["NameQuery"] });
                 }
-            };
+                else
+                {
+                    if (expert.ID != null)
+                    { list.Add(expert); }
+                    expert = new ExpertView()
+                    {
+                        ID = (string)reader["ID"],
+                        Name = (string)reader["UserName"],
+                        IsWorking = (bool)reader["Working"],
+                        ProcessingQuery = new List<QueryView>()
+                    };
+                    expert.ProcessingQuery.Add(new QueryView() { Name = (string)reader["NameQuery"] });
+                }
+            }
+            list.Add(expert);
+            connect.Close();
             return list;
         }
 

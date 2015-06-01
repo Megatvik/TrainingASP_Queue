@@ -17,25 +17,11 @@ namespace Queue.Models.Repository
         {
             connect = new SqlConnection(ConfigurationManager.ConnectionStrings["QueueDb"].ConnectionString);
         }
-        public bool AddQuery(QueryView query)
+        public bool AddQuery(string name)
         {         
-            string cmd =
-            @"
-            INSERT INTO [Query]
-           (,[Name]
-           ,[Experts]
-           ,[QueueCount]
-           ,[SubQueueCount])
-            VALUES
-           (@name
-           ,@experts
-           ,@queuecount
-           ,@subqueuecount)";
-            command = new SqlCommand(cmd);
-            command.Parameters.AddWithValue("@name", query.Name);
-            command.Parameters.AddWithValue("@experts", query.Experts);
-            command.Parameters.AddWithValue("@queuecount", query.QueueCount);
-            command.Parameters.AddWithValue("@subqueuecount", query.SubQueueCount);           
+            string cmd =@"EXECUTE AddQuery @name";
+            command = new SqlCommand(cmd,connect);
+            command.Parameters.AddWithValue("@name", name);          
             return ExecuteCommand();
         }
 
@@ -45,7 +31,7 @@ namespace Queue.Models.Repository
             @"
             DELETE FROM [Queue].[dbo].[Query]
             WHERE ID = @qid";
-            command = new SqlCommand(cmd);
+            command = new SqlCommand(cmd,connect);
             command.Parameters.AddWithValue("@qid", QID);
             return ExecuteCommand();
         }

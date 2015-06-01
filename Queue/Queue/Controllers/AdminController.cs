@@ -54,15 +54,10 @@ namespace Queue.Controllers
         #endregion
 
         #region Create Query
-        [HttpGet]
-        public ActionResult Create()
-        {
-            return View("EditQuery");
-        }
         [HttpPost]
-        public ActionResult Create(QueryView query)
+        public ActionResult Create(string name)
         {
-            if(repoAdmin.AddQuery(query))
+            if (repoAdmin.AddQuery(name))
             {
                 return RedirectToAction("Index");
             }
