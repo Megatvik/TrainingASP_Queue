@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Queue.Models.Interface
 {
-    interface IAdminRepository
+    public interface IAdminRepository
     {
         bool AddQuery(string query); //Добавить новый вид запроса
         bool DeleteQuery(int QID); //Удалить вид запроса

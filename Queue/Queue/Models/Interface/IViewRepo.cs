@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Queue.Models.Interface
 {
-    interface IViewRepo
+    public interface IViewRepo
     {
         List<QueryView> SelectAllQuery(); // Возвращает список всех запросов 
         List<ExpertView> SelectAllExperts(); //Возвращает список всех экспертов

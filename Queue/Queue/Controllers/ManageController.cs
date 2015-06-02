@@ -107,7 +107,7 @@ namespace Queue.Controllers
             ApplicationUser user = await UserManager.FindByEmailAsync(User.Identity.Name);
             if (user != null)
             {
-                user.Email = model.Email;
+                user.Email = model.UserName;
                 user.Name = model.Name;
                 user.LastName = model.LastName;
                 user.UserName = model.UserName;

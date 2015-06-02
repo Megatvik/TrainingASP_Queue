@@ -28,10 +28,10 @@ namespace Queue.Controllers
         IClientRepository ClientRepo;
         IViewRepo ViewRepo;
         string UID;
-        public ClientController()
+        public ClientController(IClientRepository client, IViewRepo view)
         {
-            ClientRepo = new ClientRepo();
-            ViewRepo = new ViewListRepo();
+            ClientRepo = client;
+            ViewRepo = view;
         }
         // GET: Client
         public ActionResult Index()

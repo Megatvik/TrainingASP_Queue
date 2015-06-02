@@ -29,10 +29,10 @@ namespace Queue.Controllers
         IExpertRepository repoExpert;
         IViewRepo repoView;
         string EID;
-        public ExpertController()
+        public ExpertController(IExpertRepository expert, IViewRepo view)
         {
-            repoExpert = new ExpertRepo();
-            repoView = new ViewListRepo();            
+            repoExpert = expert;
+            repoView = view;            
         }
         //
         // GET: /Expert/        

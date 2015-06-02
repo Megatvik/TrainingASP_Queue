@@ -14,10 +14,10 @@ namespace Queue.Controllers
     {
         IAdminRepository repoAdmin;
         IViewRepo repoView;
-        public AdminController()
+        public AdminController(IAdminRepository admin, IViewRepo view)
         {
-            repoAdmin = new AdminRepo();
-            repoView = new ViewListRepo();
+            repoAdmin = admin;
+            repoView = view;
         }
         //
         // GET: /Admin/

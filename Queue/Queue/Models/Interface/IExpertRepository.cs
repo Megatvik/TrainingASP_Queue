@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Queue.Models.Interface
 {
-    interface IExpertRepository
+    public interface IExpertRepository
     {
 
         bool HandleQuery(string EID, string QID); //Эксперт с E-ID хочет подписаться на запрос Q-ID
