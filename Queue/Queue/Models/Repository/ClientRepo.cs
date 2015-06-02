@@ -5,17 +5,11 @@ using System.Web;
 using Queue.Models.Interface;
 using System.Data.SqlClient;
 using System.Configuration;
+using System.Data;
 namespace Queue.Models.Repository
 {
-    public class ClientRepo:IClientRepository
+    public class ClientRepo:SqlRepository,IClientRepository
     {
-        SqlConnection connect;
-        SqlCommand command;
-        SqlDataReader reader;
-        public ClientRepo()
-        {
-            connect = new SqlConnection(ConfigurationManager.ConnectionStrings["QueueDb"].ConnectionString);
-        }
         public bool EnterQueue(string UID, string QID)
         {
             string cmd = @"EXECUTE EnterQueue @uid, @qid ";
@@ -24,23 +18,12 @@ namespace Queue.Models.Repository
             command.Parameters.AddWithValue("@qid", QID);
             return ExecuteCommand();
         }
-
         public bool LeaveQueue(string UID)
         {
             string cmd = @"EXECUTE LeaveQueue @uid ";
             command = new SqlCommand(cmd, connect);
             command.Parameters.AddWithValue("@uid", UID);
             return ExecuteCommand();
-        }
-
-        public int QueuePosition(string UID)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool IsSubQueue(string UID)
-        {
-            throw new NotImplementedException();
         }
         public bool IsInQueue(string UID)
         {
@@ -59,24 +42,9 @@ namespace Queue.Models.Repository
                     return flag;
                 }
             }
-            catch (SqlException) { }
+            catch (SqlException) {}
             connect.Close();
             return false;
-        }
-        private bool ExecuteCommand()
-        {
-            bool flag = false;
-
-            try
-            {
-                connect.Open();
-                command.ExecuteNonQuery();
-                flag = true;
-            }
-            catch (SqlException err) { connect.Close(); }
-
-            connect.Close();
-            return flag;
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿@model Queue.Models.RegisterModel
 
 @{
-    ViewBag.Title = "Register";
+    ViewBag.Title = "Регистрация";
 }
 
 <h2>Register</h2>
@@ -35,15 +35,6 @@
                 @Html.EditorFor(model => model.PasswordConfirm)
             </div>
         </div>
-
-        <div>
-            Введите роль
-            <div>
-                @Html.EditorFor(model => model.Role)
-            </div>
-        </div>
-
-
         <div>
             <div>
                 <input type="submit" value="Зарегистрировать" />

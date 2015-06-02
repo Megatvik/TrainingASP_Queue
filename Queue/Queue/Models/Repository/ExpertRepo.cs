@@ -8,15 +8,8 @@ using System.Configuration;
 
 namespace Queue.Models.Repository
 {
-    public class ExpertRepo:IExpertRepository
+    public class ExpertRepo:SqlRepository, IExpertRepository
     {
-        SqlConnection connect;
-        SqlCommand command;
-        SqlDataReader reader;
-        public ExpertRepo()
-        {
-            connect = new SqlConnection(ConfigurationManager.ConnectionStrings["QueueDb"].ConnectionString);
-        }
         public bool HandleQuery(string EID, string QID)
         {
             string cmd = @"EXECUTE Subscribe @eid, @qid ";
@@ -28,15 +21,19 @@ namespace Queue.Models.Repository
 
         public string AdoptClient(string EID, string QID)
         {
+            string UID="0";
             string cmd = "EXECUTE AdoptClient @eid, @qid";
             command = new SqlCommand(cmd,connect);
             command.Parameters.AddWithValue("@eid", EID);
             command.Parameters.AddWithValue("@qid", QID);
-            connect.Open();
-            string CID = (string)command.ExecuteScalar();
+            try
+            {
+                connect.Open();
+                UID = (string)command.ExecuteScalar();
+            }
+            catch (Exception) { }
             connect.Close();
-            //Логика для поиска первого клиента из очереди и возврата его ID
-            return CID;
+            return UID;
         }
 
         public bool SendToSubQueue(string EID, string SubQID)
@@ -63,21 +60,6 @@ namespace Queue.Models.Repository
             command.Parameters.AddWithValue("@eid", EID);
             command.Parameters.AddWithValue("@qid", QID);
             return ExecuteCommand();
-        }
-        private bool ExecuteCommand()
-        {
-            bool flag = false;
-
-            try
-            {
-                connect.Open();
-                command.ExecuteNonQuery();
-                flag = true;
-            }
-            catch (SqlException) { connect.Close(); }
-
-            connect.Close();
-            return flag;
         }
     }
 }

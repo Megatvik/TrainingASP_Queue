@@ -39,18 +39,18 @@ namespace Queue.Controllers
         {
             return View("EditQuery");
         }
-        [HttpPost]
-        public ActionResult Edit(QueryView query)
-        {
-            if(repoAdmin.EditQuery(query))
-            {
-                return RedirectToAction("Index");
-            }
-            else
-            {
-                return View("Error");
-            }
-        }
+        //[HttpPost]
+        //public ActionResult Edit(QueryView query)
+        //{
+        //    if(repoAdmin.EditQuery(query))
+        //    {
+        //        return RedirectToAction("Index");
+        //    }
+        //    else
+        //    {
+        //        return View("Error");
+        //    }
+        //}
         #endregion
 
         #region Create Query

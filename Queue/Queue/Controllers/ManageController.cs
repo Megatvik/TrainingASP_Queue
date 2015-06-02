@@ -32,9 +32,23 @@ namespace Queue.Controllers
 
         // GET: Manage
         public async Task<ActionResult> Index()
+        {            
+            ApplicationUser user = await UserManager.FindByEmailAsync(User.Identity.Name);
+            EditModel model = new EditModel();
+            model.Email = user.Email;
+            model.LastName = user.LastName;
+            model.Name = user.Name;
+            model.UserName = user.UserName;
+            if (user != null)
+            {
+                return View("Index", model);
+            }
+            return RedirectToAction("Login", "Account");
+        }
+
+        public async Task<ActionResult> Cabinet()
         {
-            
-            ApplicationUser user = await UserManager.FindByEmailAsync(User.Identity.Name); // Глюк! ищет по имени а думает что по почте.
+            ApplicationUser user = await UserManager.FindByEmailAsync(User.Identity.Name);            
             if (user != null)
             {
                 string role = UserManager.GetRoles(user.Id)[0].ToString();
@@ -79,7 +93,7 @@ namespace Queue.Controllers
                     Email = user.Email,
                     Name = user.Name,
                     LastName = user.LastName,
-                    isBaned = user.isBaned,
+                    UserName = user.UserName
                 };
 
                 return View(model);
@@ -96,7 +110,7 @@ namespace Queue.Controllers
                 user.Email = model.Email;
                 user.Name = model.Name;
                 user.LastName = model.LastName;
-                user.isBaned = model.isBaned;
+                user.UserName = model.UserName;
 
                 IdentityResult result = await UserManager.UpdateAsync(user);
                 if (result.Succeeded)

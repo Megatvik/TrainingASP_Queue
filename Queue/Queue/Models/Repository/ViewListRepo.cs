@@ -7,15 +7,8 @@ using System.Data.SqlClient;
 using System.Configuration;
 namespace Queue.Models.Repository
 {
-    public class ViewListRepo: IViewRepo
+    public class ViewListRepo:SqlRepository, IViewRepo
     {
-        SqlConnection connect;
-        SqlCommand command;
-        SqlDataReader reader;
-        public ViewListRepo()
-        {
-            connect = new SqlConnection(ConfigurationManager.ConnectionStrings["QueueDb"].ConnectionString);
-        }
         public List<QueryView> SelectAllQuery()
         {
             List<QueryView> list = new List<QueryView>();
@@ -51,30 +44,34 @@ namespace Queue.Models.Repository
             expert.ProcessingQuery = new List<QueryView>();
             string cmd = @"Select * from ExpertsView";
             command = new SqlCommand(cmd, connect);
-            connect.Open();
-            reader = command.ExecuteReader();
-            while (reader.Read())
+            try
             {
-                string id = (string)reader["ID"];
-                if(expert.ID == id)
+                connect.Open();
+                reader = command.ExecuteReader();
+                while (reader.Read())
                 {
-                    expert.ProcessingQuery.Add(new QueryView() { Name = (string)reader["NameQuery"] });
-                }
-                else
-                {
-                    if (expert.ID != null)
-                    { list.Add(expert); }
-                    expert = new ExpertView()
+                    string id = (string)reader["ID"];
+                    if (expert.ID == id)
                     {
-                        ID = (string)reader["ID"],
-                        Name = (string)reader["UserName"],
-                        IsWorking = (bool)reader["Working"],
-                        ProcessingQuery = new List<QueryView>()
-                    };
-                    expert.ProcessingQuery.Add(new QueryView() { Name = (string)reader["NameQuery"] });
+                        expert.ProcessingQuery.Add(new QueryView() { Name = (string)reader["NameQuery"] });
+                    }
+                    else
+                    {
+                        if (expert.ID != null)
+                        { list.Add(expert); }
+                        expert = new ExpertView()
+                        {
+                            ID = (string)reader["ID"],
+                            Name = (string)reader["UserName"],
+                            IsWorking = (bool)reader["Working"],
+                            ProcessingQuery = new List<QueryView>()
+                        };
+                        expert.ProcessingQuery.Add(new QueryView() { Name = (string)reader["NameQuery"] });
+                    }
                 }
+                list.Add(expert);
             }
-            list.Add(expert);
+            catch (SqlException) { }
             connect.Close();
             return list;
         }
@@ -102,7 +99,7 @@ namespace Queue.Models.Repository
                 }
                 reader.Close();
             }
-            catch (SqlException) { connect.Close(); }
+            catch (SqlException) { }
 
             connect.Close();
             return list;
@@ -117,22 +114,25 @@ namespace Queue.Models.Repository
             QueueView view = new QueueView();
 
             string cmd = @"
-                        Select Query.Name,Client.QueueNumber, Client.SubQueue
-                        from Client INNER JOIN Query 
+                        SELECT Query.Name, Client.QueueNumber, Client.SubQueue
+                        FROM Client INNER JOIN Query 
                         ON Query.ID = Client.ID_query
-                        where Client.ID = @uid";
+                        WHERE Client.ID = @uid";
             command = new SqlCommand(cmd, connect);
             command.Parameters.AddWithValue("@uid", UID);
             try
             {
                 connect.Open();
                 reader = command.ExecuteReader();
-                reader.Read();
-                view.Name = (string)reader["Name"];
-                view.Position = (int)reader["QueueNumber"];
-                view.IsSubQueue = (bool)reader["SubQueue"];
-                view.WaitingTime = view.Position * 5;
-                reader.Close();
+                if (reader.HasRows)
+                {
+                    reader.Read();
+                    view.Name = (string)reader["Name"];
+                    view.Position = (int)reader["QueueNumber"];
+                    view.IsSubQueue = (bool)reader["SubQueue"];
+                    view.WaitingTime = view.Position * 5;
+                    reader.Close();
+                }
             }
             catch (SqlException) { }
 

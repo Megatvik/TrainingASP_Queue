@@ -178,7 +178,6 @@
     <Compile Include="Models\Interface\IAdminRepository.cs" />
     <Compile Include="Models\Interface\IClientRepository.cs" />
     <Compile Include="Models\Interface\IExpertRepository.cs" />
-    <Compile Include="Models\Interface\IRepository.cs" />
     <Compile Include="Models\Interface\IViewRepo.cs" />
     <Compile Include="Models\ProcessingView.cs" />
     <Compile Include="Models\QueryView.cs" />
@@ -186,6 +185,7 @@
     <Compile Include="Models\Repository\AdminRepo.cs" />
     <Compile Include="Models\Repository\ClientRepo.cs" />
     <Compile Include="Models\Repository\ExpertRepo.cs" />
+    <Compile Include="Models\Repository\SqlRepository.cs" />
     <Compile Include="Models\Repository\ViewListRepo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

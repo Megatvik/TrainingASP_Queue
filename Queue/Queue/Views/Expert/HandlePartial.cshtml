@@ -19,7 +19,14 @@
             <td>@item.Name</td>
             <td>@item.QueueCount</td>
             <td>@item.SubQueueCount</td>
-            <td>@Html.ActionLink("Принять клиента", "AdoptClient", "Expert", new  {QID = item.ID },null)</td>            
+            @if (item.QueueCount == 0 && item.SubQueueCount == 0)
+            {
+                <td>Принять клиента</td>
+            }
+            else
+            {
+                <td>@Html.ActionLink("Принять клиента", "AdoptClient", "Expert", new  {QID = item.ID },null)</td>
+            }
         </tr>
     }
 </table>

@@ -1,43 +1,27 @@
 ﻿@model Queue.Models.EditModel
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Данные пользователя";
 }
-
-<h1>E-mail : @Html.Name(Model.Email)</h1>
-
-<h2>Ваше имя : @Html.Name(Model.Name)</h2>
-
-<h2>Ваша фамилия : @Html.Name(Model.LastName)</h2>
-
-<h2>Забанены? : @Html.Name(Model.isBaned.ToString())</h2>
-
-<div class="form-group">
-    <div class="col-md-2 control-label">
-        @Html.ActionLink("Edit", "Edit", "Manage")
+<div class="modal-header text-center"><h3> Добро пожаловать @Html.Name(Model.UserName) </h3></div>
+<div class="row">
+    <div class="col-md-6 text-center">
+        <h3>Имя : @Html.Name(Model.Name)</h3>
     </div>
-    <div class="col-md-2 control-label">
-        @Html.ActionLink("Delete", "Delete", "Manage")
+
+    <div class="col-md-6 text-center">
+        <h3>Фамилия : @Html.Name(Model.LastName)</h3>
     </div>
 </div>
-@if (User.IsInRole("Expert"))
-{
-        <div class="col-md-2 control-label">
-        @Html.ActionLink("Expert - panel", "Index", "Expert")
+<div class="row">
+    <div class="col-md-12" style="height:20px"></div>
+</div>
+<div class="row">
+    <div class="col-md-6 text-center">
+        <div>@Html.ActionLink("Редактировать", "Edit", "Manage")</div>
     </div>
-}
-
-@if (User.IsInRole("Admin"))
-{
-    <div class="col-md-2 control-label">
-        @Html.ActionLink("Admin - panel", "Index", "Admin")
+    <div class="col-md-6 text-center">
+        <div>@Html.ActionLink("Удалить", "Delete", "Manage")</div>
     </div>
-}
-@if (User.IsInRole("Client"))
-{
-    <div class="col-md-2 control-label">
-        @Html.ActionLink("Client - panel", "Index", "Client")
-    </div>
-}
-
+</div>
 <p class="text-success">@ViewBag.StatusMessage</p>
 

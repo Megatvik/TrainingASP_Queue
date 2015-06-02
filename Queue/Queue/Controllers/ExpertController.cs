@@ -71,6 +71,7 @@ namespace Queue.Controllers
                 tmp.ID_expert = EID;
                 return View("Service",tmp);
             }
+            ViewBag.ErrorMessage = "Очередь пуста";
             return View("Error");
         }
         public ActionResult EndDialog(string EID, string UID)
