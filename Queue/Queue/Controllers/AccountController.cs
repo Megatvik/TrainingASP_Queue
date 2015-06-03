@@ -34,9 +34,45 @@ namespace Queue.Controllers
         #region Register
         public ActionResult Register()
         {
-            return View();
+            RegisterModel model=new RegisterModel();
+            model.Role = "Client";
+            return View(model);
         }
+        public ActionResult RegisterExpert()
+        {
+            RegisterModel model = new RegisterModel();
+            model.Role = "Expert";
+            return View("Register",model);
+        }
+        [HttpPost]
+        public async Task<ActionResult> RegisterExpert(RegisterModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                ApplicationUser user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                IdentityResult result = await UserManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    await UserManager.AddToRoleAsync(user.Id, model.Role);
+                    ClaimsIdentity claim = await UserManager.CreateIdentityAsync(user,
+                        DefaultAuthenticationTypes.ApplicationCookie);
+                    AuthenticationManager.SignIn(new AuthenticationProperties
+                    {
+                        IsPersistent = true
+                    }, claim);
 
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    foreach (string error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error);
+                    }
+                }
+            }
+            return View(model);
+        }
         [HttpPost]
         public async Task<ActionResult> Register(RegisterModel model)
         {

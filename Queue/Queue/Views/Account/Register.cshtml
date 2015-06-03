@@ -4,12 +4,17 @@
     ViewBag.Title = "Регистрация";
 }
 
-<h2>Register</h2>
+<style type="text/css">
+ #Role {
+     visibility:hidden
+ } 
+</style>
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-
+    
+    <h2>Вы регистрируетесь как @Model.Role @Html.EditorFor(model => model.Role)</h2>
     <div>
         <h4>Регистрация пользователя</h4>
         <hr />

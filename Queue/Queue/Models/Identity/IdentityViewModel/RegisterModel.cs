@@ -17,7 +17,6 @@ namespace Queue.Models
         [DataType(DataType.Password)]
         public string PasswordConfirm { get; set; }
 
-        [Required]
         public string Role { get; set; }
     }
 }
