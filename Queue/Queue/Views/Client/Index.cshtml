@@ -1,18 +1,26 @@
 ﻿@model IEnumerable<Queue.Models.QueryView>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Клиент";
 }
 
-<h2>Client</h2>
+<meta http-equiv="Refresh" content="5" />
+<h2>Клиент</h2>
 
 <div class="row">
     @if (!ViewBag.IsInQueue)
     {
-    <div class="col-md-12" style="background-color:lightblue;">
-        @{
-        Html.RenderAction("QueueInfo", "Client");
+        if(ViewBag.IsProcessing)
+        {
+            <div class="col-md-12" style="background-color:lightblue;">
+             @{
+             Html.RenderAction("QueueInfo", "Client");
+            }
+            </div>
         }
-    </div>
+        else
+        {
+            <h1>Вас приняли. Проходите!</h1>
+        }
     }
     else
     {

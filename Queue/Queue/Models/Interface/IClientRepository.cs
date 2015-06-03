@@ -11,6 +11,6 @@ namespace Queue.Models.Interface
         bool EnterQueue(string UID, string QID); //Пользователь с U-ID хочет встать в очередь на запрос Q-ID
         bool LeaveQueue(string UID); //Пользователь с U-ID хочет покинуть очередь
         bool IsInQueue(string UID); //Находится ли в очереди
-
+        bool IsProcessing(string UID); // Принял ли эксперт
     }
 }

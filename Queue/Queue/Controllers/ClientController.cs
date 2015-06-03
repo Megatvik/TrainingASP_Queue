@@ -38,6 +38,7 @@ namespace Queue.Controllers
         {
             UID = UserManager.FindByName(User.Identity.Name).Id;
             ViewBag.IsInQueue = ClientRepo.IsInQueue(UID);
+            ViewBag.IsProcessing = ClientRepo.IsProcessing(UID);
             return View();
         }
 

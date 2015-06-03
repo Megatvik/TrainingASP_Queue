@@ -46,5 +46,28 @@ namespace Queue.Models.Repository
             connect.Close();
             return false;
         }
+
+
+        public bool IsProcessing(string UID)
+        {
+            string cmd = @"SELECT ID_expert FROM Client WHERE ID = @uid";
+            command = new SqlCommand(cmd, connect);
+            command.Parameters.AddWithValue("@uid", UID);
+            try
+            {
+                connect.Open();
+                reader = command.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    reader.Read();
+                    bool flag = reader.IsDBNull(0);
+                    connect.Close();
+                    return flag;
+                }
+            }
+            catch (SqlException) { }
+            connect.Close();
+            return false;
+        }
     }
 }
